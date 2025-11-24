@@ -28,7 +28,7 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
             Console.WriteLine("====================================");
             Console.WriteLine("1. Crear estudiante");
             Console.WriteLine("2. Listar estudiantes");
-            Console.WriteLine("3. Editar estudiante (no implementado aún)");
+            Console.WriteLine("3. Editar estudiante");
             Console.WriteLine("4. Eliminar estudiante (no implementado aún)");
             Console.WriteLine("0. Salir");
             Console.WriteLine("====================================");
@@ -47,8 +47,10 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
                         ListarEstudiantesFlow();
                         break;
                     case "3":
+                        EditarEstudianteFlow();
+                        break;
                     case "4":
-                        Console.WriteLine("Esta opción se implementará en las siguientes features.");
+                        Console.WriteLine("Esta opción se implementará en la siguiente feature.");
                         Pausar();
                         break;
                     case "0":
@@ -118,6 +120,56 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
             }
 
             Console.WriteLine("------------------------------------");
+            Pausar();
+        }
+
+        private void EditarEstudianteFlow()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Editar estudiante ===");
+
+            Console.Write("Ingrese el Id del estudiante a editar: ");
+            string inputId = Console.ReadLine();
+
+            if (!int.TryParse(inputId, out int id))
+            {
+                Console.WriteLine("Id inválido.");
+                Pausar();
+                return;
+            }
+
+            var actual = _service.ObtenerPorId(id);
+            if (actual == null)
+            {
+                Console.WriteLine("No se encontró ningún estudiante con ese Id.");
+                Pausar();
+                return;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Deje el campo vacío si NO desea cambiar ese valor.");
+            Console.WriteLine();
+
+            Console.WriteLine($"Matrícula actual: {actual.Matricula}");
+            Console.Write("Nueva matrícula: ");
+            string nuevaMatricula = Console.ReadLine();
+
+            Console.WriteLine($"Nombre actual: {actual.Nombre}");
+            Console.Write("Nuevo nombre: ");
+            string nuevoNombre = Console.ReadLine();
+
+            Console.WriteLine($"Carrera actual: {actual.Carrera}");
+            Console.Write("Nueva carrera: ");
+            string nuevaCarrera = Console.ReadLine();
+
+            Console.WriteLine($"Correo actual: {actual.Correo}");
+            Console.Write("Nuevo correo: ");
+            string nuevoCorreo = Console.ReadLine();
+
+            _service.ActualizarEstudiante(id, nuevaMatricula, nuevoNombre, nuevaCarrera, nuevoCorreo);
+
+            Console.WriteLine();
+            Console.WriteLine("Estudiante actualizado correctamente.");
             Pausar();
         }
 

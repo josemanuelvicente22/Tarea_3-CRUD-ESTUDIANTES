@@ -29,7 +29,7 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
             Console.WriteLine("1. Crear estudiante");
             Console.WriteLine("2. Listar estudiantes");
             Console.WriteLine("3. Editar estudiante");
-            Console.WriteLine("4. Eliminar estudiante (no implementado aún)");
+            Console.WriteLine("4. Eliminar estudiante");
             Console.WriteLine("0. Salir");
             Console.WriteLine("====================================");
             Console.Write("Seleccione una opción: ");
@@ -50,8 +50,7 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
                         EditarEstudianteFlow();
                         break;
                     case "4":
-                        Console.WriteLine("Esta opción se implementará en la siguiente feature.");
-                        Pausar();
+                        EliminarEstudianteFlow();
                         break;
                     case "0":
                         Environment.Exit(0);
@@ -170,6 +169,55 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
 
             Console.WriteLine();
             Console.WriteLine("Estudiante actualizado correctamente.");
+            Pausar();
+        }
+
+        private void EliminarEstudianteFlow()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Eliminar estudiante ===");
+
+            Console.Write("Ingrese el Id del estudiante a eliminar: ");
+            string inputId = Console.ReadLine();
+
+            if (!int.TryParse(inputId, out int id))
+            {
+                Console.WriteLine("Id inválido.");
+                Pausar();
+                return;
+            }
+
+            var actual = _service.ObtenerPorId(id);
+            if (actual == null)
+            {
+                Console.WriteLine("No se encontró ningún estudiante con ese Id.");
+                Pausar();
+                return;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine($"Está a punto de eliminar al estudiante:");
+            Console.WriteLine($"Id:        {actual.Id}");
+            Console.WriteLine($"Matrícula: {actual.Matricula}");
+            Console.WriteLine($"Nombre:    {actual.Nombre}");
+            Console.WriteLine($"Carrera:   {actual.Carrera}");
+            Console.WriteLine($"Correo:    {actual.Correo}");
+            Console.WriteLine();
+            Console.Write("¿Está seguro? (s/n): ");
+            string confirmacion = Console.ReadLine();
+
+            if (confirmacion?.ToLower() == "s")
+            {
+                _service.EliminarEstudiante(id);
+                Console.WriteLine();
+                Console.WriteLine("Estudiante eliminado correctamente.");
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Operación cancelada.");
+            }
+
             Pausar();
         }
 

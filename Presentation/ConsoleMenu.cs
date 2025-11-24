@@ -27,7 +27,7 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
             Console.WriteLine("        CRUD DE ESTUDIANTES         ");
             Console.WriteLine("====================================");
             Console.WriteLine("1. Crear estudiante");
-            Console.WriteLine("2. Listar estudiantes (no implementado aún)");
+            Console.WriteLine("2. Listar estudiantes");
             Console.WriteLine("3. Editar estudiante (no implementado aún)");
             Console.WriteLine("4. Eliminar estudiante (no implementado aún)");
             Console.WriteLine("0. Salir");
@@ -44,6 +44,8 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
                         CrearEstudianteFlow();
                         break;
                     case "2":
+                        ListarEstudiantesFlow();
+                        break;
                     case "3":
                     case "4":
                         Console.WriteLine("Esta opción se implementará en las siguientes features.");
@@ -88,6 +90,34 @@ namespace Tarea_3_CRUD_ESTUDIANTES.Presentation
             Console.WriteLine();
             Console.WriteLine("Estudiante creado correctamente.");
             Console.WriteLine($"Id asignado: {creado.Id}");
+            Pausar();
+        }
+
+        private void ListarEstudiantesFlow()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Lista de estudiantes ===");
+
+            var estudiantes = _service.ObtenerTodos();
+
+            if (estudiantes.Count == 0)
+            {
+                Console.WriteLine("No hay estudiantes registrados.");
+                Pausar();
+                return;
+            }
+
+            foreach (var est in estudiantes)
+            {
+                Console.WriteLine("------------------------------------");
+                Console.WriteLine($"Id:        {est.Id}");
+                Console.WriteLine($"Matrícula: {est.Matricula}");
+                Console.WriteLine($"Nombre:    {est.Nombre}");
+                Console.WriteLine($"Carrera:   {est.Carrera}");
+                Console.WriteLine($"Correo:    {est.Correo}");
+            }
+
+            Console.WriteLine("------------------------------------");
             Pausar();
         }
 
